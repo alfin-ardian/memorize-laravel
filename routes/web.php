@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +16,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('Home.index', ['title' => 'Home']);
 });
+Route::get('/about', function () {
+    return view('About.index',[
+        'title' => 'About',
+    ]);
+});
+
+
+
+Route::get('/post', [PostController::class, 'index']);
+
+Route::get('/post/{post:slug}', [PostController::class, 'show']);
+
+
