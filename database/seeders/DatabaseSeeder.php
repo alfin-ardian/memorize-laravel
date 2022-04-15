@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(10)->create();
+        User::factory(3)->create();
 
         Category::create([
             'name' => 'Javascript',
@@ -38,6 +38,6 @@ class DatabaseSeeder extends Seeder
             'slug' => 'react-js'
         ]);
 
-        Post::factory(10)->create();
+        Post::factory(20)->create();
     }
 }

@@ -7,13 +7,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link {{ $title == 'Home' ? 'active' : '' }}" href="/">Home</a>
+            <a class="nav-link {{ request()->is('/')  ? 'active' : '' }}" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ $title == 'About' ? 'active' : '' }}" href="/about">About</a>
+            <a class="nav-link {{ request()->is('about')   ? 'active' : '' }}" href="/about">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ $title == 'Post' ? 'active' : '' }}" href="/post">Post</a>
+            <a class="nav-link {{ request()->is('post') ? 'active' : '' }}" href="/post">Post</a>
           </li>
         </ul>
       </div>
