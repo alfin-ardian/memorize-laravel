@@ -1,10 +1,11 @@
 <?php
 
 use App\Models\User;
-use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,7 @@ Route::get('/', function () {
     return view('Home.index', ['title' => 'Home']);
 });
 Route::get('/about', function () {
-    return view('About.index',[
+    return view('About.index', [
         'title' => 'About',
     ]);
 });
@@ -37,7 +38,7 @@ Route::get('/categories', function () {
     ]);
 });
 
-Route::get('/categories/{category:slug}', function(Category $category){
+Route::get('/categories/{category:slug}', function (Category $category) {
     return view('Category.show', [
         'title' => $category->name,
         'posts' => $category->posts,
@@ -45,11 +46,13 @@ Route::get('/categories/{category:slug}', function(Category $category){
     ]);
 });
 
-Route::get('/authors/{author:username}', function(User $author) {
+Route::get('/authors/{author:username}', function (User $author) {
     return view('Post.index', [
         'title' => 'User Post',
         'posts' => $author->posts
     ]);
 });
 
-
+Route::get('/login', [LoginController::class, 'index']);
+Route::get('/register', [RegisterController::class, 'index']);
+Route::post('/register', [RegisterController::class, 'store']);

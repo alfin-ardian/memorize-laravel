@@ -19,6 +19,11 @@
             <a class="nav-link {{ request()->is('categories') ? 'active' : '' }}" href="/categories">Kategori</a>
           </li>
         </ul>
+        <ul class="nav navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('login') ? 'active' : '' }}" href="/login"><i class="bi bi-box-arrow-in-right"></i>Login</a>
+            </li>
+        </ul>
       </div>
     </div>
   </nav>
