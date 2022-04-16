@@ -26,7 +26,7 @@
                     Hello, {{ Auth::user()->name }} <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i>My acount</a></li>
+                  <li><a class="dropdown-item" href="/admin"><i class="bi bi-person"></i>My acount</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li>
                       <form action="/logout" method="post">

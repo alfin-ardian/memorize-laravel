@@ -4,8 +4,10 @@ use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AdminPostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,3 +60,12 @@ Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store']);
+// Route::resource('admin', AdminController::class)->middleware('auth');
+
+Route::get('/admin', function () {
+    return view('admin.index', [
+        'title' => 'Admin',
+        'user' => auth()->user()
+    ]);
+})->middleware('auth');
+Route::resource('/admin/posts', AdminPostController::class)->middleware('auth');
