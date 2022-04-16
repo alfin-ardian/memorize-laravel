@@ -20,9 +20,28 @@
           </li>
         </ul>
         <ul class="nav navbar-nav ms-auto">
+            @auth
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                    Hello, {{ Auth::user()->name }} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i>My acount</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                      <form action="/logout" method="post">
+                        @csrf
+                        <button class="dropdown-item"><i class="bi bi-box-arrow-right"></i>Logout</button>
+                      </form>
+                    </li>
+                </ul>
+              </li>
+            @else
+
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('login') ? 'active' : '' }}" href="/login"><i class="bi bi-box-arrow-in-right"></i>Login</a>
             </li>
+            @endauth
         </ul>
       </div>
     </div>
