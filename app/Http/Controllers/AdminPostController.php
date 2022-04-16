@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AdminPostController extends Controller
 {
@@ -16,7 +18,7 @@ class AdminPostController extends Controller
     {
         return view('admin.post.index', [
             'title' => 'Posts',
-            'posts' => Post::all()
+            'posts' => Post::latest()->get()
         ]);
     }
 
@@ -28,7 +30,8 @@ class AdminPostController extends Controller
     public function create()
     {
         return view('admin.post.create', [
-            'title' => 'Create Post'
+            'title' => 'Create Post',
+            'categories' => Category::all()
         ]);
     }
 
@@ -40,7 +43,19 @@ class AdminPostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'slug' => 'required|unique:posts|max:255',
+            'body' => 'required',
+            'category_id' => 'required|exists:categories,id'
+        ]);
+
+        $validatedData['user_id'] = auth()->user()->id;
+        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
+
+        Post::create($validatedData);
+
+        return redirect('/admin/posts')->with('success', 'Berhasil menambahkan post baru');
     }
 
     /**
@@ -65,7 +80,11 @@ class AdminPostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('admin.post.edit', [
+            'title' => 'Edit Post',
+            'post' => $post,
+            'categories' => Category::all()
+        ]);
     }
 
     /**
@@ -77,7 +96,25 @@ class AdminPostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $data = [
+            'title' => 'required|max:255',
+            'body' => 'required',
+            'category_id' => 'required|exists:categories,id'
+        ];
+
+        if ($request->slug != $post->slug) {
+            $data['slug'] = 'required|unique:posts|max:255';
+        }
+
+        $validatedData = $request->validate($data);
+
+        $validatedData['user_id'] = auth()->user()->id;
+        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
+
+        Post::where('id', $post->id)
+            ->update($validatedData);
+
+        return redirect('/admin/posts')->with('success', 'Berhasil mengupdate post');
     }
 
     /**
@@ -88,6 +125,8 @@ class AdminPostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        Post::destroy($post->id);
+
+        return redirect('/admin/posts')->with('success', 'Berhasil menghapus posingan');
     }
 }
